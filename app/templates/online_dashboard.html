@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+.container { max-width:1100px; margin:30px auto; display:grid; grid-template-columns: 1fr 320px; gap:20px; }
+.card { padding:18px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.06); background:white; }
+.upload-row { display:flex; gap:12px; align-items:center; }
+.progress { width:100%; }
+.participant-list { list-style:none; padding:0; margin:0; }
+.participant-item { padding:6px 0; border-bottom:1px solid #f1f1f1; }
+.small { font-size:0.9rem; color:#666; }
+.btn { background:#007bff; color:white; padding:8px 12px; border-radius:6px; border:none; cursor:pointer; }
+.btn-danger { background:#dc3545; color:white; padding:8px 12px; border-radius:6px; border:none; cursor:pointer; }
+.inline { display:inline-block; }
+</style>
+
+<div class="container">
+  <div class="card">
+    <h3>Session: <span id="session-token">{{ token }}</span></h3>
+    <p class="small">Owner: {{ owner_name }}</p>
+
+    <div style="margin-top:12px;">
+      <h4>Upload file</h4>
+      <div class="upload-row">
+        <input type="file" id="file-input">
+        <button id="upload-btn" class="btn">Upload</button>
+      </div>
+      <div id="progress-wrap" style="display:none; margin-top:8px;">
+        <progress id="upload-progress" class="progress" value="0" max="100"></progress>
+        <div id="progress-text" class="small"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <h4>Files</h4>
+      <ul id="file-list">
+        {% for f in files %}
+          <li>{{ f }} — <a href="{{ url_for('online_transfer.download_file', token=token, filename=f) }}">Download</a></li>
+        {% else %}
+          <li class="small">No files yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Participants (<span id="pcount">{{ participants|length }}</span>)</h4>
+    <ul id="participants" class="participant-list">
+      {% for p in participants %}
+        <li class="participant-item">{{ p }}</li>
+      {% endfor %}
+    </ul>
+
+    <div style="margin-top:16px;">
+      {% if is_owner %}
+      <!-- ✅ Only sender (owner) sees this -->
+      <h5>Session Controls</h5>
+      <div style="display:flex; gap:8px; margin-bottom:8px;">
+        <button id="end-btn" class="btn-danger">End Session</button>
+        <button id="set-timeout" class="btn">Set Auto Timeout</button>
+      </div>
+      <div id="timeout-box" style="display:none; margin-top:8px;">
+        <label>Auto-expire (minutes)</label>
+        <input id="timeout-min" type="number" min="1" placeholder="e.g. 60">
+        <button id="apply-timeout" class="btn">Apply</button>
+      </div>
+      {% else %}
+      <!-- ✅ Receiver will only see this info -->
+      <p class="small">You are connected as a receiver. The sender controls this session.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+const token = "{{ token }}";
+const socket = io();
+
+// join room
+socket.emit('join_room', {token: token, user: "{{ current_user.username }}"});
+
+// update participants list
+socket.on('participants_update', data => {
+  const list = document.getElementById('participants');
+  list.innerHTML = '';
+  data.participants.forEach(p => {
+    const li = document.createElement('li');
+    li.className = 'participant-item';
+    li.textContent = p;
+    list.appendChild(li);
+  });
+  document.getElementById('pcount').textContent = data.participants.length;
+});
+
+// file added
+socket.on('file_added', d => {
+  const ul = document.getElementById('file-list');
+  const li = document.createElement('li');
+  li.innerHTML = d.filename + ' — <a href="/online/download/'+token+'/'+encodeURIComponent(d.filename)+'">Download</a>';
+  ul.appendChild(li);
+});
+
+// session ended
+socket.on('session_ended', () => {
+  alert('Session ended by owner or expired.');
+  window.location = "{{ url_for('online_transfer.select_mode') }}";
+});
+
+// auto-expire set
+socket.on('auto_expire_set', data => {
+  alert('Auto timeout set for ' + data.minutes + ' minutes');
+});
+
+// upload with progress
+document.getElementById('upload-btn').addEventListener('click', () => {
+  const f = document.getElementById('file-input').files[0];
+  if(!f) return alert('Choose a file');
+
+  const xhr = new XMLHttpRequest();
+  const fd = new FormData();
+  fd.append('file', f);
+
+  xhr.open('POST', `/online/upload/${token}`, true);
+  xhr.upload.onprogress = function(e) {
+    if(e.lengthComputable) {
+      const pct = Math.round((e.loaded / e.total) * 100);
+      document.getElementById('progress-wrap').style.display = 'block';
+      document.getElementById('upload-progress').value = pct;
+      document.getElementById('progress-text').textContent = pct + '%';
+    }
+  };
+  xhr.onload = function() {
+    if(xhr.status === 200) {
+      alert('Upload complete');
+      document.getElementById('progress-wrap').style.display = 'none';
+    } else {
+      alert('Upload failed');
+    }
+  };
+  xhr.send(fd);
+});
+
+// 🔒 Only if owner
+const endBtn = document.getElementById('end-btn');
+if(endBtn) endBtn.addEventListener('click', async () => {
+  if(!confirm('End session and delete files?')) return;
+  const res = await fetch('/online/end/' + token, {method:'POST'});
+  const js = await res.json();
+  if(js.status === 'ended') window.location = "{{ url_for('online_transfer.select_mode') }}";
+  else alert('Could not end session');
+});
+
+// 🔒 Timeout (only for owner)
+const st = document.getElementById('set-timeout');
+if(st) st.addEventListener('click', ()=> {
+  document.getElementById('timeout-box').style.display = 'block';
+});
+const apply = document.getElementById('apply-timeout');
+if(apply) apply.addEventListener('click', async () => {
+  const mins = document.getElementById('timeout-min').value;
+  if(!mins) return alert('Enter minutes');
+  const fd = new FormData();
+  fd.append('minutes', mins);
+  const res = await fetch('/online/set_auto_expire/' + token, {method:'POST', body:fd});
+  const js = await res.json();
+  if(js.status === 'ok') alert('Auto timeout set');
+  else alert('Could not set timeout');
+});
+</script>
+{% endblock %}

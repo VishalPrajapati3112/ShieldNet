@@ -1,0 +1,10 @@
+<!-- app/templates/lan_create.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Create LAN Session (Sender)</h2>
+<form method="POST">
+  <label>Session Username: <input name="username" required></label><br><br>
+  <label>Session Password: <input type="password" name="password" required></label><br><br>
+  <button type="submit">Create Session</button>
+</form>
+{% endblock %}

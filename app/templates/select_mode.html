@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Select Transfer Method</h2>
+<a href="{{ url_for('online.create_session') }}" class="btn">Create Online Session (Sender)</a>
+<a href="{{ url_for('online.join_session') }}" class="btn">Join Online Session (Receiver)</a>
+{% endblock %}

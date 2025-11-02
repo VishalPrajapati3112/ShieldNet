@@ -1,0 +1,33 @@
+<!-- app/templates/lan_panel.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>LAN Shared Files</h2>
+
+{% if session_info %}
+  <p><strong>Session OTP:</strong> {{ session_info.otp }}</p>
+  <p><strong>Session Username:</strong> {{ session_info.username }}</p>
+{% endif %}
+
+<form method="POST" action="{{ url_for('lan.upload_file') }}" enctype="multipart/form-data">
+  <input type="file" name="file" required>
+  <button type="submit">Upload File</button>
+</form>
+
+<hr>
+<h3>Available Files</h3>
+<ul>
+  {% if files %}
+    {% for f in files %}
+      <li><a href="{{ url_for('lan.download_file', filename=f) }}">{{ f }}</a></li>
+    {% endfor %}
+  {% else %}
+    <li>No files in this session yet.</li>
+  {% endif %}
+</ul>
+
+<!-- End session button shown to the sender (owner) optionally -->
+<form action="{{ url_for('lan.end_session') }}" method="get" style="margin-top: 20px;">
+  <button type="submit">End Session (Delete all shared files)</button>
+</form>
+
+{% endblock %}

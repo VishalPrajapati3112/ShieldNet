@@ -1,0 +1,35 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f6f7fb;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #333;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+main {
+  padding: 20px;
+}
+
+.btn {
+  display: inline-block;
+  background: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+#flashes li {
+  background: #f9dcdc;
+  color: #a33;
+  padding: 5px;
+  margin-bottom: 5px;
+}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+.card { border-radius:8px; padding:20px; box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+.row { display:flex; gap:20px; justify-content:center; margin-top:30px; }
+.btn-primary { background:#007bff; color:white; padding:12px 20px; border-radius:8px; text-decoration:none; }
+.btn-ghost { background:#f8f9fa; color:#333; padding:12px 20px; border-radius:8px; text-decoration:none; border:1px solid #ddd; }
+</style>
+
+<div style="max-width:900px;margin:40px auto;">
+  <h2>Online Transfer</h2>
+  <p>Create a new share session or join an existing one using the token & password.</p>
+
+  <div class="row">
+    <a class="card btn-primary" href="{{ url_for('online_transfer.create_session') }}">➕ Create Session</a>
+    <a class="card btn-ghost" href="{{ url_for('online_transfer.join_session') }}">🔗 Join Session</a>
+  </div>
+</div>
+{% endblock %}

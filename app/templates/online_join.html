@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+.form-wrap { max-width:500px; margin:30px auto; padding:20px; box-shadow:0 6px 18px rgba(0,0,0,0.06); border-radius:8px; }
+.field { margin-bottom:12px; }
+label { font-weight:600; display:block; margin-bottom:6px;}
+input[type=text], input[type=password] { width:100%; padding:8px 10px; border-radius:6px; border:1px solid #ddd; }
+.btn { background:#007bff; color:white; padding:10px 16px; border-radius:6px; border:none; cursor:pointer; }
+</style>
+
+<div class="form-wrap">
+  <h3>Join Session</h3>
+  <form method="post" action="{{ url_for('online_transfer.join_session') }}">
+    <div class="field">
+      <label>Session Token</label>
+      <input type="text" name="token" placeholder="Enter token shared by sender" required>
+    </div>
+    <div class="field">
+      <label>Password (if any)</label>
+      <input type="password" name="password" placeholder="Password (if set)">
+    </div>
+    <div style="text-align:right;">
+      <button class="btn" type="submit">Join Session</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

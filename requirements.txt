@@ -1,0 +1,15 @@
+Flask==3.0.3
+Flask-Login==0.6.3
+Flask-WTF==1.2.2
+Flask-SQLAlchemy==3.1.1
+Werkzeug==3.0.3
+WTForms==3.1.2
+itsdangerous==2.2.0
+MarkupSafe==2.1.5
+Jinja2==3.1.4
+eventlet>=0.36.1
+redis>=5.0.0
+
+Flask-SocketIO==5.3.6
+python-socketio==5.11.3
+python-engineio==4.9.1

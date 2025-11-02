@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Join LAN Session</h2>
+<p>Enter username, password and OTP provided by host.</p>
+<form method="POST">
+  <input name="username" placeholder="Username" required><br>
+  <input name="password" type="password" placeholder="Password" required><br>
+  <input name="otp" placeholder="OTP" required><br>
+  <button type="submit">Join session</button>
+</form>
+{% endblock %}

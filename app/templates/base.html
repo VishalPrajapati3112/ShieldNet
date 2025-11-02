@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ title or "Secure Transfer" }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="{{ url_for('static', filename='js/idle_logout.js') }}" defer></script>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js" integrity="" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <h1>Secure Transfer</h1>
+    {% if current_user.is_authenticated %}
+      <div>Welcome {{ current_user.username }} | <a href="{{ url_for('auth.logout') }}">Logout</a></div>
+    {% else %}
+      <div><a href="{{ url_for('auth.login') }}">Login</a> | <a href="{{ url_for('auth.signup') }}">Signup</a></div>
+    {% endif %}
+  </header>
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul id="flashes">
+          {% for m in messages %}<li>{{ m }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

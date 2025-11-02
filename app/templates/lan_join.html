@@ -1,0 +1,11 @@
+<!-- app/templates/lan_join.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Join LAN Session (Receiver)</h2>
+<form method="POST">
+  <input name="username" placeholder="Session username" required><br><br>
+  <input name="password" placeholder="Session password" type="password" required><br><br>
+  <input name="otp" placeholder="OTP (from sender)" required><br><br>
+  <button type="submit">Join</button>
+</form>
+{% endblock %}

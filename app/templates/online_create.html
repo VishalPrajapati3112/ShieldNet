@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+.form-wrap { max-width:500px; margin:30px auto; padding:20px; box-shadow:0 6px 18px rgba(0,0,0,0.06); border-radius:8px; }
+.field { margin-bottom:12px; }
+label { font-weight:600; display:block; margin-bottom:6px;}
+input[type=text], input[type=password], input[type=number] { width:100%; padding:8px 10px; border-radius:6px; border:1px solid #ddd; }
+.btn { background:#007bff; color:white; padding:10px 16px; border-radius:6px; border:none; cursor:pointer; }
+</style>
+
+<div class="form-wrap">
+  <h3>Create Session</h3>
+  <form method="post" action="{{ url_for('online_transfer.create_session') }}">
+    <div class="field">
+      <label>Session Name (visible to receivers)</label>
+      <input type="text" name="session_name" placeholder="{{ current_user.username }}">
+    </div>
+    <div class="field">
+      <label>Session Password (optional)</label>
+      <input type="password" name="password" placeholder="Optional">
+    </div>
+    <div class="field">
+      <label>Auto-expire (minutes, optional)</label>
+      <input type="number" name="auto_expire" min="1" placeholder="60">
+    </div>
+    <div style="text-align:right;">
+      <button class="btn" type="submit">Create Session</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
