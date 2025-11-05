@@ -1,17 +1,177 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Sign Up</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up | CyberSecure Portal</title>
+
+  <!-- Font + Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* === GLOBAL === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: radial-gradient(circle at top, #00131f, #000);
+      color: #e0fff5;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* === Matrix-like moving code background === */
+    body::before {
+      content: "01010101011001010110001101110101";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      color: rgba(0,255,170,0.08);
+      font-family: monospace;
+      font-size: 18px;
+      line-height: 20px;
+      animation: moveCode 15s linear infinite;
+      white-space: pre;
+      pointer-events: none;
+    }
+
+    @keyframes moveCode {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(100%); }
+    }
+
+    /* === CARD === */
+    .signup-container {
+      background: rgba(0, 30, 45, 0.8);
+      border: 1px solid rgba(0, 255, 170, 0.2);
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 255, 170, 0.1);
+      width: 380px;
+      padding: 30px 40px;
+      z-index: 2;
+      backdrop-filter: blur(8px);
+    }
+
+    h2 {
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      color: #00ffcc;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px #00ffaa;
+    }
+
+    /* === FORM === */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    label {
+      font-weight: 500;
+      color: #bfffe3;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 255, 170, 0.3);
+      background: rgba(0, 40, 60, 0.6);
+      color: #eafff5;
+      outline: none;
+      font-size: 15px;
+      transition: 0.2s ease;
+    }
+
+    input:focus {
+      border-color: #00ffcc;
+      box-shadow: 0 0 12px rgba(0, 255, 170, 0.4);
+    }
+
+    /* === SUBMIT BUTTON === */
+    button, input[type="submit"] {
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #00ffaa, #0099ff);
+      color: #00131f;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover, input[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0,255,200,0.5);
+    }
+
+    /* === LINK === */
+    p {
+      text-align: center;
+      font-size: 14px;
+      color: #aaffee;
+      margin-top: 15px;
+    }
+
+    a {
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* === LIGHT GLOW EFFECT === */
+    .glow {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(0,255,170,0.15), transparent 70%);
+      top: -50px;
+      right: -50px;
+      border-radius: 50%;
+      filter: blur(60px);
+      z-index: 0;
+      animation: floatGlow 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatGlow {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-40px, 40px); }
+    }
+  </style>
 </head>
 <body>
-  <h2>Register</h2>
-  <form method="POST" action="">
-    {{ form.hidden_tag() }}
-    <p>{{ form.username.label }}<br>{{ form.username(size=32) }}</p>
-    <p>{{ form.email.label }}<br>{{ form.email(size=32) }}</p>
-    <p>{{ form.password.label }}<br>{{ form.password(size=32) }}</p>
-    <p>{{ form.submit() }}</p>
-  </form>
-  <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+  <div class="glow"></div>
+
+  <div class="signup-container">
+    <h2><i class="fa-solid fa-shield-halved"></i> Register</h2>
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <p>{{ form.username.label }}<br>{{ form.username(size=32, placeholder="Username") }}</p>
+      <p>{{ form.email.label }}<br>{{ form.email(size=32, placeholder="Email Address") }}</p>
+      <p>{{ form.password.label }}<br>{{ form.password(size=32, placeholder="Password") }}</p>
+      <p>{{ form.submit(class_="btn") }}</p>
+    </form>
+    <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+  </div>
 </body>
 </html>
