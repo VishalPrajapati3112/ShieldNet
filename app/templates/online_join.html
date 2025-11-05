@@ -1,13 +1,103 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
-.form-wrap { max-width:500px; margin:30px auto; padding:20px; box-shadow:0 6px 18px rgba(0,0,0,0.06); border-radius:8px; }
-.field { margin-bottom:12px; }
-label { font-weight:600; display:block; margin-bottom:6px;}
-input[type=text], input[type=password] { width:100%; padding:8px 10px; border-radius:6px; border:1px solid #ddd; }
-.btn { background:#007bff; color:white; padding:10px 16px; border-radius:6px; border:none; cursor:pointer; }
+/* Fullscreen video background */
+.video-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* Dark bluish overlay (same as dashboard background tone) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 20, 60, 0.85), rgba(0, 10, 30, 0.85));
+  z-index: -1;
+}
+
+/* Glassy 3D centered form */
+.form-wrap {
+  max-width: 500px;
+  margin: 120px auto;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-wrap:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6);
+}
+
+h3 {
+  text-align: center;
+  color: #0d1b3d;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: #222;
+}
+
+input[type=text],
+input[type=password] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+}
+
+.btn {
+  background: #007bff;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
 </style>
 
+<!-- Background video -->
+<video autoplay loop muted playsinline class="video-bg">
+  <source src="{{ url_for('static', filename='video/background.mp4') }}" type="video/mp4">
+</video>
+
+<!-- Blue overlay -->
+<div class="overlay"></div>
+
+<!-- Form -->
 <div class="form-wrap">
   <h3>Join Session</h3>
   <form method="post" action="{{ url_for('online_transfer.join_session') }}">
