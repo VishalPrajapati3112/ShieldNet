@@ -1,177 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign Up | CyberSecure Portal</title>
-
-  <!-- Font + Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>ShieldNet Signup | ShieldNet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-    /* === GLOBAL === */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
+
     body {
-      font-family: 'Roboto', sans-serif;
-      background: radial-gradient(circle at top, #00131f, #000);
-      color: #e0fff5;
-      height: 100vh;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 100vh;
       overflow: hidden;
-      position: relative;
+      animation: fadeIn 0.8s ease-in;
     }
 
-    /* === Matrix-like moving code background === */
-    body::before {
-      content: "01010101011001010110001101110101";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      color: rgba(0,255,170,0.08);
-      font-family: monospace;
-      font-size: 18px;
-      line-height: 20px;
-      animation: moveCode 15s linear infinite;
-      white-space: pre;
-      pointer-events: none;
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    @keyframes moveCode {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(100%); }
-    }
-
-    /* === CARD === */
-    .signup-container {
-      background: rgba(0, 30, 45, 0.8);
-      border: 1px solid rgba(0, 255, 170, 0.2);
-      border-radius: 12px;
-      box-shadow: 0 0 25px rgba(0, 255, 170, 0.1);
-      width: 380px;
-      padding: 30px 40px;
-      z-index: 2;
-      backdrop-filter: blur(8px);
-    }
-
-    h2 {
-      text-align: center;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 28px;
-      color: #00ffcc;
-      margin-bottom: 20px;
-      letter-spacing: 1px;
-      text-shadow: 0 0 10px #00ffaa;
-    }
-
-    /* === FORM === */
-    form {
+    /* LEFT Cosmic Side */
+    .left {
+      flex: 1;
+      background: black;
+      color: white;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-    }
-
-    label {
-      font-weight: 500;
-      color: #bfffe3;
-      margin-bottom: 6px;
-    }
-
-    input[type="text"], input[type="email"], input[type="password"] {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 255, 170, 0.3);
-      background: rgba(0, 40, 60, 0.6);
-      color: #eafff5;
-      outline: none;
-      font-size: 15px;
-      transition: 0.2s ease;
-    }
-
-    input:focus {
-      border-color: #00ffcc;
-      box-shadow: 0 0 12px rgba(0, 255, 170, 0.4);
-    }
-
-    /* === SUBMIT BUTTON === */
-    button, input[type="submit"] {
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      background: linear-gradient(90deg, #00ffaa, #0099ff);
-      color: #00131f;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      font-family: 'Orbitron', sans-serif;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    button:hover, input[type="submit"]:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(0,255,200,0.5);
-    }
-
-    /* === LINK === */
-    p {
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
       text-align: center;
-      font-size: 14px;
-      color: #aaffee;
-      margin-top: 15px;
     }
 
-    a {
-      color: #00ffcc;
-      text-decoration: none;
+    /* Logo (DOUBLED TO 400PX) */
+    .shield-logo {
+      width: 400px;
+      height: auto;
+      margin-bottom: 20px;
+      z-index: 3;
+      filter: drop-shadow(0 0 10px rgba(0, 200, 255, 0.6));
+      animation: float 4s ease-in-out infinite;
+      user-select: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    .left h1 {
+      font-size: 2.8rem;
+      margin: 0;
+      z-index: 2;
+      color: #b0e0ff;
+      text-shadow: 0 0 15px rgba(0, 191, 255, 0.8);
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    .left p {
+      z-index: 2;
+      margin-top: 10px;
+      color: #d7f1ff;
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #6dcff6; }
+      to { text-shadow: 0 0 45px #00bfff; }
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 4s infinite ease-in-out alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.3; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* RIGHT Signup Section */
+    .right {
+      flex: 1;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-top-left-radius: 40px;
+      border-bottom-left-radius: 40px;
+      box-shadow: -10px 0 25px rgba(0, 0, 0, 0.15);
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+    }
+
+    .signup-box {
+      width: 80%;
+      max-width: 350px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .signup-box h2 {
+      text-align: left;
+      margin-bottom: 25px;
+      color: #111;
       font-weight: 600;
     }
 
-    a:hover {
-      text-decoration: underline;
+    form p {
+      margin-bottom: 18px;
+      color: #333;
     }
 
-    /* === LIGHT GLOW EFFECT === */
-    .glow {
-      position: absolute;
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(circle, rgba(0,255,170,0.15), transparent 70%);
-      top: -50px;
-      right: -50px;
-      border-radius: 50%;
-      filter: blur(60px);
-      z-index: 0;
-      animation: floatGlow 6s ease-in-out infinite alternate;
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+      font-size: 0.95rem;
+      outline: none;
+      transition: 0.2s;
     }
 
-    @keyframes floatGlow {
-      from { transform: translate(0, 0); }
-      to { transform: translate(-40px, 40px); }
+    input:focus {
+      border-color: #00bfff;
+      box-shadow: 0 0 8px #6dcff6;
+      background: #fff;
+    }
+
+    input[type="submit"] {
+      background: linear-gradient(90deg, #00bfff, #6dcff6);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    input[type="submit"]:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px #00bfff;
+    }
+
+    .links {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .links a {
+      color: #0077ff;
+      text-decoration: none;
+    }
+
+    @media (max-width: 850px) {
+      body { flex-direction: column; }
+      .left, .right { width: 100%; height: 50vh; border-radius: 0; }
     }
   </style>
 </head>
-<body>
-  <div class="glow"></div>
 
-  <div class="signup-container">
-    <h2><i class="fa-solid fa-shield-halved"></i> Register</h2>
-    <form method="POST" action="">
-      {{ form.hidden_tag() }}
-      <p>{{ form.username.label }}<br>{{ form.username(size=32, placeholder="Username") }}</p>
-      <p>{{ form.email.label }}<br>{{ form.email(size=32, placeholder="Email Address") }}</p>
-      <p>{{ form.password.label }}<br>{{ form.password(size=32, placeholder="Password") }}</p>
-      <p>{{ form.submit(class_="btn") }}</p>
-    </form>
-    <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+<body>
+
+  <!-- LEFT PANEL -->
+  <div class="left">
+    <div class="stars" id="stars"></div>
+
+    <img src="{{ url_for('static', filename='images/shieldnet.jpeg') }}"
+        class="shield-logo"
+        alt="ShieldNet Logo">
+
+    <h1>Join the New Era of File Transfer</h1>
+    <p>Create your new account</p>
   </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right">
+    <div class="signup-box">
+      <h2>Create Account</h2>
+
+      <form method="POST" action="">
+        {{ form.hidden_tag() }}
+
+        <p>{{ form.username.label }}<br>
+          {{ form.username(size=32, placeholder="Choose a username") }}</p>
+
+        <p>{{ form.email.label }}<br>
+          {{ form.email(size=32, placeholder="Enter your email") }}</p>
+
+        <p>{{ form.password.label }}<br>
+          {{ form.password(size=32, placeholder="Create a password") }}</p>
+
+        <p>{{ form.submit(class_="btn") }}</p>
+      </form>
+
+      <div class="links">
+        <p>Already have an account?
+          <a href="{{ url_for('auth.login') }}">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Star Generator -->
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const stars = document.getElementById("stars");
+      const count = 120;
+      const fragment = document.createDocumentFragment();
+
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement("div");
+        s.classList.add("star");
+        const size = (Math.random() * 2 + 1).toFixed(2);
+        s.style.width = ${size}px;
+        s.style.height = ${size}px;
+        s.style.top = ${Math.random() * 100}%;
+        s.style.left = ${Math.random() * 100}%;
+        s.style.animationDelay = ${Math.random() * 5}s;
+        fragment.appendChild(s);
+      }
+
+      stars.appendChild(fragment);
+    });
+  </script>
+
 </body>
 </html>
